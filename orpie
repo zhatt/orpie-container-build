@@ -1,0 +1,16 @@
+#!/bin/sh
+# Set title
+echo -ne "\033]0;Orpie"; echo -ne "\007"
+
+ENGINE=docker
+podman -v &> /dev/null
+if [[ $? -eq 0 ]]; then
+	ENGINE=podman
+fi
+
+IMG=docker.io/zhatt/orpie
+TAG=latest
+
+exec $ENGINE run --tty --interactive --rm=true \
+	--volume $HOME/.orpie:/root/.orpie:Z \
+	${IMG}:${TAG}
